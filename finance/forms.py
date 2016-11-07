@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 
 class ChargeForm(forms.Form):
     value = forms.DecimalField(label = 'Value', required = True)
-    _date = forms.DataField(label = 'Data', required = True)
+    _date = forms.DateField(label = 'Date', required = True)
 
 
     def clean(self):

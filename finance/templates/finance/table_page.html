@@ -6,6 +6,11 @@
 </head>
 <body>
     <h1>Это страница с таблицей</h1>
+    <form method="POST" class="post-form">{% csrf_token %}
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Добавить</button>
+    </form>
     <table border="1">
         <caption>Таблица начислений</caption>
         <tr>

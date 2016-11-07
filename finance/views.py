@@ -3,6 +3,8 @@ from datetime import date
 from decimal import Decimal
 from .models import Account, Charge
 from random import randint
+from .forms import ChargeForm
+
 
 
 def start_page(request):
@@ -17,7 +19,14 @@ def table_page(request):
         charge.save()
         transactions.append(charge)
 
-    return render(request, 'finance/table_page.html', {"charges":transactions})
+    if request.method == "POST":
+        form = ChargeForm(request.POST)
+        form.is_valid()
+
+    else:
+        form = ChargeForm()
+
+    return render(request, 'finance/table_page.html', {"charges":transactions, "form":form})
 
 
 def random_transactions( ):
