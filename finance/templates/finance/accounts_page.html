@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Start Page</title>
+</head>
+<body>
+    <table border="1">
+        <caption>Таблица счетов</caption>
+        <tr>
+            <th>Название счета</th>
+            <th>Баланс</th>
+        </tr>
+        {% for account in accounts %}
+            <tr>
+                <td><a href="{% url 'finance:account_details_page' pk=account.pk %}">{{ account.name }}</a></td>
+                <td>{{ account.total }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Добавить</button>
+</form>
+</body>
+</html>

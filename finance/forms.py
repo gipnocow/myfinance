@@ -1,16 +1,20 @@
 from django import forms
-from datetime import date
-from django.core.exceptions import ValidationError
+from .models import Charge, Account
 
 
-class ChargeForm(forms.Form):
-    value = forms.DecimalField(label = 'Value', required = True)
-    _date = forms.DateField(label = 'Date', required = True)
+class ChargeForm(forms.ModelForm):
+    _value = forms.DecimalField(label = 'Сумма', required = True)
+    _date = forms.DateField(label = 'Дата', required = True)
+
+    class Meta:
+        model = Charge
+        fields = ("_value", "_date")
 
 
-    def clean(self):
-        cleaned_data = super().clean()
-        if cleaned_data.get('value')<0:
-            if cleaned_data.get('_date') > date.today():
-                self.add_error('_date', 'Дата списания не может превышать сегодняшнюю')
-        return self
+class AccountForm(forms.ModelForm):
+    _total = forms.DecimalField(label = 'Сумма', required = True)
+    name = forms.CharField(label="Имя счета", max_length=20)
+
+    class Meta:
+        model = Account
+        fields = ("_total", "name")

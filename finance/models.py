@@ -5,20 +5,21 @@ from django.db import models
 
 class Account(models.Model):
     _total = models.DecimalField(max_digits=30, decimal_places=2)
+    name = models.CharField(max_length=20)
 
     @classmethod
-    def create(cls, total):
-        account = cls(_total = round(total, 2))
+    def create(cls, total=0, name="Счет"):
+        account = cls(_total = round(total, 2), name=name)
         account.save()
         return account
 
-    def add_charge(self, sum):
-        if self._total + sum < 0:
+    def add_charge(self, charge):
+        if self._total + charge.value < 0:
             return
 
-        charge = Charge.create(self, sum)
+        charge._account = self
         charge.save()
-        self._total += sum
+        self._total += charge.value
 
     @property
     def total(self):
@@ -28,6 +29,7 @@ class Account(models.Model):
 class Charge(models.Model):
     _value = models.DecimalField(max_digits=10, decimal_places=2)
     _date = models.DateField()
+    _account = models.ForeignKey("Account", related_name="charges")
 
     @property
     def value(self):

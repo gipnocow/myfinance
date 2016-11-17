@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Table Page</title>
+</head>
+<body>
+    <table border="1">
+        <caption>Таблица начислений</caption>
+        <tr>
+            <th>Транзакция</th>
+            <th>Дата транзакции</th>
+        </tr>
+        {% for charge in account.charges.all %}
+            <tr>
+                <td>{{ charge.value }}</td>
+                <td>{{ charge.date }}</td>
+            </tr>
+        {% endfor %}
+  </table>
+    <form method="POST" class="post-form">{% csrf_token %}
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Добавить</button>
+    </form>
+
+ <h1> <a href="{% url 'finance:accounts_page' %}">назад</a></h1>
+</body>
+</html>
